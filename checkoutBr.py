@@ -44,4 +44,4 @@ class MyListener(StreamListener):
 
 
 twitter_stream = Stream(auth, MyListener())
-twitter_stream.filter(track=['#python'])
+twitter_streamtwitter_stream.filter(track=['#python'])
