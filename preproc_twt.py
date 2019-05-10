@@ -1,6 +1,14 @@
 import json
-from nltk.tokenize import word_tokenize
 import re
+import operator
+import nltk
+from nltk import bigrams
+from nltk.tokenize import word_tokenize
+from collections import Counter
+from nltk.corpus import stopwords
+import string
+
+#  nltk.download()
 
 emoticons_str = r"""
     (?:
@@ -58,12 +66,41 @@ in_reply_to_status_id: status identifier id the tweet is a reply to a specific
 
 """
 
+#  Removing stop-words
+punctuation = list(string.punctuation)
+stop = stopwords.words('english') + punctuation + ['rt', 'via']
 with open('python.json', 'r') as f:
     #  line = f.readline()  # read only the first tweet/line
     #  tweet = json.loads(line)  # load it as Python dict
     #  print(json.dumps(tweet, indent=4))  # pretty-printi
+    count_all = Counter()
     for line in f:
         tweet = json.loads(line)
-        tokens = preprocess(tweet['text'])
-    #  do_something_else(tokens)
-        print(tokens)
+        #  tokens = preprocess(tweet['text'])
+        #  Create a list with all the terms
+        terms_all = [term for term in preprocess(tweet['text'])]
+        terms_stop = [term for term in preprocess(tweet['text'])
+                     if term not in stop]
+
+        # Count terms only once, equivalent to Document Frequency
+        terms_single = set(terms_all)
+        # Count hashtags only
+        terms_hash = [term for term in preprocess(tweet['text'])
+                      if term.startswith('#')]
+        # Count terms only (no hashtags, no mentions)
+        terms_only = [term for term in preprocess(tweet['text'])
+                      if term not in stop and
+                      not term.startswith(('#', '@'))]
+                        #  mind the ((double brackets))
+                        #  startswith() takes a tuple (not a list) if
+                        #  we pass a list of inputs
+        terms_bigram = bigrams(terms_stop)
+
+        #  Update the counter
+        count_all.update(terms_bigram)
+        #  print(tokens)
+
+    #  Print the first 5 most frequent words
+    print(count_all.most_common(5))
+
+
