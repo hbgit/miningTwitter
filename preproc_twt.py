@@ -10,6 +10,8 @@ import string
 
 from collections import defaultdict
 
+import vincent
+
 #  nltk.download()
 
 emoticons_str = r"""
@@ -129,6 +131,12 @@ with open('python.json', 'r') as f:
 
     print("Co-occurrence for %s:" % search_word)
     print(count_search.most_common(20))
+    word_freq = count_search.most_common(20)
+    labels, freq = zip(*word_freq)
+    data = {'data': freq, 'x': labels}
+    bar = vincent.Bar(data, iter_idx='x')
+    bar.to_json('term_freq.json')
+
 
     #  Print the first 5 most frequent words
     print(count_all.most_common(5))
