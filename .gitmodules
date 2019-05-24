@@ -1,0 +1,3 @@
+[submodule "collect_old_tweet/GetOldTweets-python"]
+	path = collect_old_tweet/GetOldTweets-python
+	url = https://github.com/hbgit/GetOldTweets-python.git
