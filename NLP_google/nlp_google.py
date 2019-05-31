@@ -3,6 +3,9 @@ Demonstrates how to make a simple call to the Natural Language API.
 Based on https://cloud.google.com/natural-language/docs/sentiment-tutorial?hl=pt-br
 Check-out:
 https://www.programmableweb.com/news/how-to-start-using-google-cloud-natural-language-api/how-to/2016/09/01#apiu
+
+
+$ export GOOGLE_APPLICATION_CREDENTIALS=file.json
 """
 
 import argparse
